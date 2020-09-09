@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+
+    <!-- Side menu button -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="locations"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Weazy</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="location">
+  <ion-text color="primary">
+    <h1>{{location.name}}</h1>
+  </ion-text>
+  <ion-text color="secondary">
+    <p>{{location.description}}</p>
+  </ion-text>
+</ion-content>
