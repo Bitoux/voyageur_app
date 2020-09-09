@@ -9,3 +9,11 @@
 
   </ion-toolbar>
 </ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item (click)="navigateToLocation(location)" *ngFor="let location of locations">
+      {{location.name}} <span slot="end">{{location.distance | number}} km</span>
+    </ion-item>
+  </ion-list>
+</ion-content>
