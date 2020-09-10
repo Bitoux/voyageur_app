@@ -31,10 +31,36 @@ export class ApiService {
         }),
         catchError(this.handleError)
       );
-    // return this.sendRequest(`${this.AUTH_SERVER_ADDRESS}/${url}`, 'get', null, header).pipe(
-    //   map(res => res.json()),
-    //   catchError(this.handleError)
-    // ).toPromise();
+  }
+
+  post(url: string, token: string, param): Observable<any> {
+    var header = new HttpHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    });
+    return this.httpClient.post<any>(`${this.AUTH_SERVER_ADDRESS}/${url}`, param, {headers: header})
+      .pipe(
+        tap(async (res) => {
+          return res;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  put(url: string, token: string, param): Observable<any> {
+    var header = new HttpHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    });
+    return this.httpClient.put<any>(`${this.AUTH_SERVER_ADDRESS}/${url}`, param, {headers: header})
+      .pipe(
+        tap(async (res) => {
+          return res;
+        }),
+        catchError(this.handleError)
+      );
   }
 
   refreshToken(refresh_token): Observable<any> {

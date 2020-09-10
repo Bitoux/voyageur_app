@@ -19,7 +19,7 @@
 <ion-content>
   <ion-list>
     <ion-item (click)="navigateToLocation(location)"  *ngFor="let location of locations">
-      {{location?.[0].name}}
+      {{location.name}}
     </ion-item>
   </ion-list>
 </ion-content>

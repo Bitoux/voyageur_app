@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../api.service';
 import { Storage } from "@ionic/storage";
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-location',
@@ -13,9 +14,10 @@ export class LocationPage implements OnInit {
   location;
   id;
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService, private storage: Storage, private router: Router) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private storage: Storage, private router: Router, private loadingController: LoadingController) { }
 
   ngOnInit() {
+    this.presentLoading();
     this.route.paramMap.subscribe(queryParams => {
       this.id = queryParams.get('id');
       this.storage.get('token').then(token => {
@@ -33,9 +35,22 @@ export class LocationPage implements OnInit {
           }else{
             this.location = res;
           }
+          this.dismissLoading();
         });
       });
     });
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Please wait ...',
+      spinner: 'bubbles'
+    });
+    await loading.present();
+  }
+
+  dismissLoading(){
+    this.loadingController.dismiss();
   }
 
 }
