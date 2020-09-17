@@ -8,9 +8,17 @@
 
     <ion-content>
       <ion-list>
-        <ion-menu-toggle auto-hide="false" *ngFor="let page of pages">
-          <ion-item [routerLink]="page.path" routerDirection="root" [class.active-menu]="activePath === page.path">
-            {{page.name}}
+        <ion-menu-toggle auto-hide="false" *ngFor="let page of pages; last as isLast">
+          <ion-item *ngIf="!isLast && page.name !== 'Settings'" [routerLink]="page.path" routerDirection="root" [class.active-menu]="activePath === page.path">
+            <ion-label>{{page.name}}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="page.name == 'Settings'" [routerLink]="page.path" routerDirection="root" [class.active-menu]="activePath === page.path">
+            <ion-icon slot="start" name="settings-outline"></ion-icon>
+            <ion-label>{{page.name}}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="page.name == 'Logout'" (click)="logout()">
+            <ion-icon slot="start" name="exit-outline"></ion-icon>
+            <ion-label>{{page.name}}</ion-label>
           </ion-item>
         </ion-menu-toggle>
       </ion-list>

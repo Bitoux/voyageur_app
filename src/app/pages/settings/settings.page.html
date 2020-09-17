@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Settings</ion-title>
+
+    <!-- Side menu button -->
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding *ngIf="user">
+  <ion-avatar *ngIf="user.imageName">
+    <img [src]="user.imageName" />
+  </ion-avatar>
+  <ion-avatar *ngIf="!user.imageName">
+    <img src="https://127.0.0.1:8000/images/default.png" />
+  </ion-avatar>
+
+  <ion-item>
+    <ion-label *ngIf="user.first_name">
+      {{user.first_name}}
+    </ion-label>
+    <ion-label *ngIf="!user.first_name">
+      first_name
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label *ngIf="user.last_name">
+      {{user.last_name}}
+    </ion-label>
+    <ion-label *ngIf="!user.last_name">
+      last_name
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label *ngIf="user.address">
+      {{user.address}}
+    </ion-label>
+    <ion-label *ngIf="!user.address">
+      address
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label *ngIf="user.city">
+      {{user.city}}
+    </ion-label>
+    <ion-label *ngIf="!user.city">
+      city
+    </ion-label>
+  </ion-item>
+
+  
+</ion-content>

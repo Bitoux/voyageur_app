@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Router, RouterEvent } from  "@angular/router";
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -14,15 +15,27 @@ export class MenuPage implements OnInit {
   pages = [
     {
       name: 'Home',
-      path: '/menu/home'
+      path: '/menu/home',
+      placement: 'top'
     },
     {
       name: 'Locations',
-      path: '/menu/locations'
+      path: '/menu/locations',
+      placement: 'top'
+    },
+    {
+      name: 'Settings',
+      path: '/menu/settings',
+      placement: 'bottom'
+    },
+    {
+      name: 'Logout',
+      path: '',
+      placement: 'bottom'
     }
   ]
 
-  constructor(private storage: Storage, private router: Router) {
+  constructor(private storage: Storage, private router: Router, private autService: AuthService) {
     this.router.events.subscribe((event: RouterEvent) => {
       this.activePath = event.url;
     });
@@ -30,6 +43,15 @@ export class MenuPage implements OnInit {
 
   ngOnInit() {
     
+  }
+
+  navigateSettings(){
+    this.router.navigateByUrl('/menu/settings');
+  }
+
+  logout(){
+    this.autService.logout();
+    this.router.navigateByUrl('login');
   }
 
 }

@@ -3,6 +3,7 @@ import { Router } from  "@angular/router";
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../auth.service';
 import { LoadingController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { LoadingController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private  authService:  AuthService, private  router:  Router, public alertController: AlertController, private loadingController: LoadingController) { }
+  constructor(private  authService:  AuthService, private  router:  Router, public alertController: AlertController, private loadingController: LoadingController, private storage: Storage) { }
 
   ngOnInit() {
   }
@@ -23,6 +24,10 @@ export class LoginPage implements OnInit {
       if(res.error && res.error.message === 'Invalid credentials.'){ // == 'Invalid credentials.'
         this.errorAlert();
       }else{
+        let user = {
+          email: form.value.email
+        }
+        this.storage.set('user', JSON.stringify(user));
         this.router.navigateByUrl('');
       }
     });
