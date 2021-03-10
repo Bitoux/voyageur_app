@@ -54,13 +54,13 @@ export class HomePage implements OnInit {
     this.latitude = '1.483287';//1.377521
     this.apiService.get(`location/nearest/${this.longitude}/${this.latitude}`).subscribe((res) => {
       this.locations = this.prepareLocationArray(res);
-      console.log(this.locations);
       this.dismissLoading();
       if(event){
         event.target.complete();
       }
     }, (error) => {
       console.log(error);
+      console.log('Error', error);
       this.dismissLoading();
     });
   }

@@ -28,6 +28,8 @@ export class ApiInterceptor implements HttpInterceptor{
                         catchError((err) => {
                             if(err.error.message == 'Expired JWT Token'){
                                 return this.handleRefreshToken(req, next, token);
+                            }else{
+                                console.log('Error', err);
                             }
                         })
                     )
