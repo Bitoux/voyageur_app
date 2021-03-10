@@ -19,6 +19,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.requestNearestLocations(null);
+    
   }
 
   prepareLocationArray(locations){
@@ -51,27 +52,16 @@ export class HomePage implements OnInit {
     this.presentLoading();
     this.longitude = '45.784851';//47.468179
     this.latitude = '1.483287';//1.377521
-    this.storage.get('token').then(token => {
-      this.apiService.get(`location/nearest/${this.longitude}/${this.latitude}`, token, null).subscribe((res) => {
-        if(res.error && res.error.message == 'JWT Token not found'){
-          this.router.navigateByUrl('login');
-        }else if(res.error && res.error.message == 'Expired JWT Token'){
-          this.storage.get('refresh_token').then(refreshToken => {
-            this.apiService.refreshToken(refreshToken).toPromise().then(data => {
-              this.locations = this.apiService.get(`location/nearest/${this.longitude}/${this.latitude}`, data.token, null).subscribe(res => {
-                this.locations = res;
-              });
-            })
-          })
-        }else{
-          this.locations = this.prepareLocationArray(res);
-          console.log(this.locations);
-        }
-        this.dismissLoading();
-        if(event){
-          event.target.complete();
-        }
-      });
+    this.apiService.get(`location/nearest/${this.longitude}/${this.latitude}`).subscribe((res) => {
+      this.locations = this.prepareLocationArray(res);
+      console.log(this.locations);
+      this.dismissLoading();
+      if(event){
+        event.target.complete();
+      }
+    }, (error) => {
+      console.log(error);
+      this.dismissLoading();
     });
   }
 

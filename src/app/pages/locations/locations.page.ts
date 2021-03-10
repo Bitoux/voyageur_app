@@ -18,24 +18,13 @@ export class LocationsPage implements OnInit {
 
   ngOnInit() {
     this.presentLoading();
-    this.storage.get('token').then(token => {
-      this.apiService.get('location/list', token, null).subscribe((res) => {
-        //console.log('MESSAGE', res.error.message);
-        if(res.error && res.error.message === 'JWT Token not found'){
-          this.router.navigateByUrl('login');
-        }else if(res.error && res.error.message === 'Expired JWT Token'){
-          this.storage.get('refresh_token').then(refreshToken => {
-            this.apiService.refreshToken(refreshToken).toPromise().then(data => {
-              this.apiService.get('location/list', data.token, null).subscribe(res => {
-                this.locations = res;
-              });
-            });
-          });
-        }else{
-          this.locations = res;
-        }
-        this.dismissLoading();
-      });
+    this.apiService.get('location/list').subscribe((res) => {
+    
+      this.locations = res;
+      this.dismissLoading();
+    }, (error) => {
+      console.log(error);
+      this.dismissLoading();
     });
   }
 

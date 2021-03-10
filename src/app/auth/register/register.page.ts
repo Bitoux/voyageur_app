@@ -13,6 +13,7 @@ export class RegisterPage implements OnInit {
   constructor(private authService: AuthService, private router: Router, private loadingController: LoadingController) { }
 
   ngOnInit() {
+    console.log('On register');
   }
 
   register(form) {

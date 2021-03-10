@@ -42,7 +42,11 @@ export class MenuPage implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.storage.get('tokens').then(token => {
+      if(!token){
+        this.router.navigateByUrl('login');
+      }
+    })
   }
 
   navigateSettings(){

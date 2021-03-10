@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Modification de profil</ion-title>
+
+    <!-- Side menu button -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/settings"></ion-back-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding *ngIf="user">
+  <form #form="ngForm" (ngSubmit)="editProfil(form)">
+    <ion-grid fixed>
+      <ion-row color="primary" ion-justify-content-center>
+        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+          <div text-center>
+            <h3>Editez votre profil</h3>
+            <div padding>
+              <ion-avatar *ngIf="user.imageName">
+                <img [src]="user.imageName" />
+              </ion-avatar>
+              <ion-avatar *ngIf="!user.imageName">
+                <img src="https://127.0.0.1:8000/images/default.png" />
+              </ion-avatar>
+              <ion-input name="imageName" type="file" accept="image/*"></ion-input>
+
+
+              <ion-item>
+                <ion-label>Prénom</ion-label>
+                <ion-input name="first_name" type="text" [(ngModel)]="user.first_name" required ></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Non</ion-label>
+                <ion-input name="last_name" type="text" [(ngModel)]="user.last_name" required></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Adresse</ion-label>
+                <ion-input name="address" type="text" [(ngModel)]="user.address" required></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Ville</ion-label>
+                <ion-input name="city" type="text" [(ngModel)]="user.city" required></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Email</ion-label>
+                <ion-input name="email" type="email" [(ngModel)]="user.new_email" required></ion-input>
+              </ion-item>
+
+              <ion-label>Modifiez mot de passe</ion-label>
+              <ion-item>
+                <ion-input name="password" type="password" placeholder="Nouveau mot de passe" ngModel></ion-input>
+              </ion-item>
+              
+              <ion-item>
+                <ion-input name="repeat_password" type="password" placeholder="Répetez mot de passe" ngModel></ion-input>
+              </ion-item>
+
+              <p *ngIf="wrongPassword" class="error hidden">Les deux mots de passes sont différents</p>
+
+              <div padding>
+                <ion-button  size="large" type="submit" [disabled]="form.invalid" expand="block">Modifier</ion-button>
+              </div>
+
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

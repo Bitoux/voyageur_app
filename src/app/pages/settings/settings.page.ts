@@ -20,25 +20,14 @@ export class SettingsPage implements OnInit {
     this.storage.get('user').then(user => {
 
       this.user = JSON.parse(user);
-      this.storage.get('token').then(token => {
 
-        this.apiService.get(`user/${encodeURIComponent(this.user.email)}`, token, null).subscribe((res) => {
-          if(res.error && res.error.message == 'JWT Token not found') {
-            this.router.navigateByUrl('login');
-          }else if(res.error && res.error.message === 'Expired JWT Token') {
-            this.storage.get('refresh_token').then(refreshToken => {
-              this.apiService.refreshToken(refreshToken).toPromise().then(data => {
-                this.apiService.get(`user/${encodeURIComponent(this.user.email)}`, data.token, null).subscribe((res) => {
-                  this.user = res;
-                })
-              })
-            })
-          }else{
-            this.user = res;
-          }
-          this.dismissLoading();
-        })
-      })
+      this.apiService.get(`user/${encodeURIComponent(this.user.email)}`).subscribe((res) => {
+        this.user = res;
+        this.dismissLoading();
+      }, (error) => {
+        console.log(error);
+        this.dismissLoading();
+      });
     })
   }
 

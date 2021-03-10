@@ -20,23 +20,15 @@ export class LocationPage implements OnInit {
     this.presentLoading();
     this.route.paramMap.subscribe(queryParams => {
       this.id = queryParams.get('id');
-      this.storage.get('token').then(token => {
-        this.apiService.get(`location/${this.id}`, token, null).subscribe((res) => {
-          if(res.error && res.error.message == 'JWT Token not found') {
-            this.router.navigateByUrl('login');
-          }else if(res.error && res.error.message === 'Expired JWT Token'){
-            this.storage.get('refresh_token').then(refreshToken => {
-              this.apiService.refreshToken(refreshToken).toPromise().then(data => {
-                this.location = this.apiService.get(`location/${this.id}`, data.token, null).subscribe(res => {
-                  this.location = res
-                });
-              })
-            })
-          }else{
-            this.location = res;
-          }
-          this.dismissLoading();
-        });
+
+
+      this.apiService.get(`location/${this.id}`).subscribe((res) => {
+      
+        this.location = res;
+        this.dismissLoading();
+      }, (error) => {
+        console.log(error);
+        this.dismissLoading();
       });
     });
   }

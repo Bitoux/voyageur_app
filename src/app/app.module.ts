@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { AuthModule } from './auth/auth.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ApiInterceptor } from './api.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +22,12 @@ import { AuthModule } from './auth/auth.module';
     StatusBar,
     SplashScreen,
     Base64,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

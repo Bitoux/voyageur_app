@@ -62,26 +62,13 @@ export class CreateLocationPage implements OnInit {
   }
 
   createRequest(location){
-    this.storage.get('token').then(token => {
-      this.apiService.put('location/create', token, location).subscribe((res) => {
-        if(res.error && res.error.message === 'JWT Token not found'){
-          this.dismissLoading();
-          this.router.navigateByUrl('login');
-        }else if(res.error && res.error.message === 'Expired JWT Token'){
-          this.storage.get('refresh_token').then(refreshToken => {
-            this.apiService.refreshToken(refreshToken).toPromise().then(data => {
-              this.apiService.put('location/create', data.token, location).subscribe(res => {
-                this.router.navigateByUrl('locations');
-                this.dismissLoading();
-              })
-            })
-          });
-        }else{
-          this.router.navigateByUrl('locations');
-          this.dismissLoading();
-        }
-      })
-    })
+    this.apiService.put('location/create', location).subscribe((res) => {
+      this.router.navigateByUrl('locations');
+      this.dismissLoading();
+    }, (error) => {
+      console.log(error);
+      this.dismissLoading();
+    });
   }
 
 }

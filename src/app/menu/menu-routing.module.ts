@@ -23,6 +23,10 @@ const routes: Routes = [
       {
         path: 'settings',
         loadChildren: () => import('../pages/settings/settings.module').then(m => m.SettingsPageModule)
+      },
+      {
+        path: 'settings/edit-profil',
+        loadChildren: () => import('../pages/settings/edit-profil/edit-profil.module').then(m => m.EditProfilPageModule)
       }
     ]
   },
@@ -30,6 +34,14 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('../auth/login/login.module').then( m => m.LoginPageModule)
   },
+  {
+    path: 'register',
+    loadChildren: () => import('../auth/register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'forget_password',
+    loadChildren: () => import('../auth/forgetpassword/forgetpassword.module').then( m => m.ForgetpasswordPageModule)
+  }
 ];
 
 @NgModule({

@@ -20,6 +20,7 @@ export class LoginPage implements OnInit {
   login(form){
     this.presentLoading();
     this.authService.login(form.value).subscribe((res)=>{
+      console.log(res);
       this.dismissLoading();
       if(res.error && res.error.message === 'Invalid credentials.'){ // == 'Invalid credentials.'
         this.errorAlert();
@@ -30,6 +31,9 @@ export class LoginPage implements OnInit {
         this.storage.set('user', JSON.stringify(user));
         this.router.navigateByUrl('');
       }
+    }, (error) => {
+      this.dismissLoading();
+      this.errorAlert();
     });
   }
 
