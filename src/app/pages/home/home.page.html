@@ -4,14 +4,18 @@
 
     <!-- Side menu button -->
     <ion-buttons slot="start">
-      <ion-menu-button autoHide="false"></ion-menu-button>
+      <ion-menu-button color="secondary" autoHide="false"></ion-menu-button>
     </ion-buttons>
 
   </ion-toolbar>
 </ion-header>
 
+<div id="map"></div>
+
 <ion-content padding>
-    <ion-refresher slot="fixed" (ionRefresh)="requestNearestLocations($event)">
+
+    
+    <!-- <ion-refresher slot="fixed" (ionRefresh)="requestNearestLocations($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
@@ -19,5 +23,5 @@
     <ion-item (click)="navigateToLocation(location)" *ngFor="let location of locations">
       {{location.name}} <span slot="end">{{location.distance | number:'1.0-0'}} km</span>
     </ion-item>
-  </ion-list>
+  </ion-list> -->
 </ion-content>
