@@ -6,7 +6,7 @@
       <ion-back-button defaultHref="locations"></ion-back-button>
     </ion-buttons>
 
-    <ion-title>Create location</ion-title>
+    <ion-title>Ajouter une location</ion-title>
 
   </ion-toolbar>
 </ion-header>
@@ -17,7 +17,7 @@
       <ion-row>
         <ion-col size="12">
           <ion-item>
-            <ion-label position="floating">Name</ion-label>
+            <ion-label position="floating">Nom</ion-label>
             <ion-input ngModel name="name" type="text" required></ion-input>
           </ion-item>
           <ion-item>
@@ -43,6 +43,6 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-button size="large" type="submit" [disabled]="form.invalid" expand="block">Create</ion-button>
+    <ion-button color="secondary" size="large" type="submit" [disabled]="form.invalid" expand="block">Create</ion-button>
   </form>
 </ion-content>

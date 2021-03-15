@@ -4,3 +4,13 @@
     width: 100%;
     position: relative;
 }
+
+.map-icon,
+.icon-container{
+    background-image: url('../../../assets/icon/leaftlet/pin-red.svg');
+}
+
+.icon-container{
+    height: 30px;
+    background-color: black;
+}

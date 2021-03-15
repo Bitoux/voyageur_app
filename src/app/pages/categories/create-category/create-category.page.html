@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+
+    <!-- Side menu button -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="categories"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Ajouter une catégorie</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="primary" padding>
+  <form #form="ngForm" (ngSubmit)="createCategory(form)">
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+
+          <ion-item>
+            <ion-label position="floating">Nom</ion-label>
+            <ion-input ngModel name="name" type="text" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Couleur</ion-label>
+            <ion-select ngModel name="color" interface="action-sheet">
+              <ion-select-option [value]="color" *ngFor="let color of colors">{{color.name}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-button color="secondary" size="large" type="submit" [disabled]="form.invalid" expand="block">Ajouter</ion-button>
+  </form>
+</ion-content>

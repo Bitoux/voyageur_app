@@ -21,6 +21,10 @@ const routes: Routes = [
         loadChildren: () => import('../pages/locations/location/location.module').then(m => m.LocationPageModule)
       },
       {
+        path: 'categories',
+        loadChildren: () => import('../pages/categories/categories.module').then(m => m.CategoriesPageModule)
+      },
+      {
         path: 'settings',
         loadChildren: () => import('../pages/settings/settings.module').then(m => m.SettingsPageModule)
       },

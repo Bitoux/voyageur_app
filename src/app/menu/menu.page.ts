@@ -24,6 +24,11 @@ export class MenuPage implements OnInit {
       placement: 'top'
     },
     {
+      name: 'Catégories',
+      path: '/menu/categories',
+      placement: 'top'
+    },
+    {
       name: 'Settings',
       path: '/menu/settings',
       placement: 'bottom'
