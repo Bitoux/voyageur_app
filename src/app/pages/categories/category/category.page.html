@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+
+    <!-- Side menu button -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="categories"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Categorie</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="editCategory()">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="category">
+  <ion-text>
+    <h1>{{category.name}} <span [ngStyle]="{'background-color': category.color.hex}"></span></h1>
+  </ion-text>
+  <ion-text>
+    <h3>Les locations:</h3>
+  </ion-text>
+  <ion-list>
+    <ion-item (click)="navigationToLocation(location)" *ngFor="let location of category.locations">
+      {{location.name}}
+    </ion-item>
+  </ion-list>
+</ion-content>

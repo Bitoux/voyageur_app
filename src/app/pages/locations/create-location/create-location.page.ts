@@ -12,9 +12,18 @@ import { Router } from '@angular/router';
 })
 export class CreateLocationPage implements OnInit {
 
+  categories;
+
   constructor(private loadingController: LoadingController, private base64: Base64, private apiService: ApiService, private storage: Storage, private router: Router) { }
 
   ngOnInit() {
+
+    this.apiService.get('category/list').subscribe((res) => {
+      this.categories = res;
+    }, (error) => {
+      console.log(error);
+      this.dismissLoading();
+    })
   }
 
   createLocation(form){
@@ -26,7 +35,7 @@ export class CreateLocationPage implements OnInit {
           name: form.value.name,
           description: form.value.description,
           longitude: form.value.longitude,
-          lataitude: form.value.latitude,
+          latitude: form.value.latitude,
           file: base64File
         };
         this.createRequest(location);
@@ -40,7 +49,7 @@ export class CreateLocationPage implements OnInit {
         name: form.value.name,
         description: form.value.description,
         longitude: form.value.longitude,
-        lataitude: form.value.latitude
+        latitude: form.value.latitude
       };
       this.createRequest(location);
         
@@ -51,8 +60,7 @@ export class CreateLocationPage implements OnInit {
 
   async presentLoading() {
     const loading = await this.loadingController.create({
-      message: 'Please wait ...',
-      spinner: 'bubbles'
+      spinner: 'crescent'
     });
     await loading.present();
   }

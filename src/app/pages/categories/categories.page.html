@@ -18,4 +18,13 @@
 
 <ion-content>
 
+  <ion-refresher slot="fixed" (ionRefresh)="refreshCategory($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <ion-item (click)="navigationToCategory(category)" *ngFor="let category of categories" >
+      <span class="category-square" [ngStyle]="{'background-color': category.color.hex}"></span>{{category.name}}
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -11,7 +11,7 @@ import { SERVER_URL } from '../environments/environment';
   providedIn: 'root'
 })
 export class ApiService {
-  AUTH_SERVER_ADDRESS:  string  = SERVER_URL ;
+  SERVER_ADDRESS:  string  = SERVER_URL ;
   TOKEN: string;
 
   constructor(private httpClient: HttpClient, private storage: Storage, private authService: AuthService, private router: Router) {
@@ -19,13 +19,13 @@ export class ApiService {
   }
   
   get(url: string): Observable<any> {
-    var header = new HttpHeaders({
+    let header = new HttpHeaders({
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'authExempt': 'false'
     });
     return this.httpClient
-      .get<any>(`${this.AUTH_SERVER_ADDRESS}/${url}`, {headers: header})
+      .get<any>(`${this.SERVER_ADDRESS}/${url}`, {headers: header})
       .pipe(
         tap(async (res) => {
           return res;
@@ -40,12 +40,12 @@ export class ApiService {
    * @param param 
    */
   post(url: string, param): Observable<any> {
-    var header = new HttpHeaders({
+    let header = new HttpHeaders({
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'authExempt': 'false'
     });
-    return this.httpClient.post<any>(`${this.AUTH_SERVER_ADDRESS}/${url}`, param, {headers: header})
+    return this.httpClient.post<any>(`${this.SERVER_ADDRESS}/${url}`, param, {headers: header})
       .pipe(
         tap(async (res) => {
           return res;
@@ -54,17 +54,31 @@ export class ApiService {
   }
 
   put(url: string, param): Observable<any> {
-    var header = new HttpHeaders({
+    let header = new HttpHeaders({
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'authExempt': 'false'
     });
-    return this.httpClient.put<any>(`${this.AUTH_SERVER_ADDRESS}/${url}`, param, {headers: header})
+    return this.httpClient.put<any>(`${this.SERVER_ADDRESS}/${url}`, param, {headers: header})
       .pipe(
         tap(async (res) => {
           return res;
         })
       );
+  }
+
+  delete(url: string): Observable<any> {
+    let header = new HttpHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'authExempt': 'false'
+    });
+    return this.httpClient.delete<any>(`${this.SERVER_ADDRESS}/${url}`, {headers: header})
+      .pipe(
+        tap(async (res) => {
+          return res;
+        })
+      )
   }
 
 }

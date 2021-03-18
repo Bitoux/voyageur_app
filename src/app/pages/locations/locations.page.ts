@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../api.service';
-import { Storage } from "@ionic/storage";
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 
@@ -14,7 +13,7 @@ export class LocationsPage implements OnInit {
 
   locations;
 
-  constructor(private apiService: ApiService, private storage: Storage, private router: Router, private loadingController: LoadingController) { }
+  constructor(private apiService: ApiService, private router: Router, private loadingController: LoadingController) { }
 
   ngOnInit() {
     this.presentLoading();
@@ -28,6 +27,15 @@ export class LocationsPage implements OnInit {
     });
   }
 
+  deleteLocation(location, index){
+    this.apiService.delete('location/delete/' + location.id).subscribe((res) => {
+      this.locations.splice(index, 1);
+    }, (error) => {
+      console.log(error);
+      this.dismissLoading();
+    })
+  }
+
   navigateToLocation(location){
     this.router.navigateByUrl('/menu/locations/location/' + location.id, {queryParams: { id: location.id}});
   }
@@ -38,8 +46,7 @@ export class LocationsPage implements OnInit {
 
   async presentLoading() {
     const loading = await this.loadingController.create({
-      message: 'Please wait ...',
-      spinner: 'bubbles'
+      spinner: 'crescent'
     });
     await loading.present();
   }

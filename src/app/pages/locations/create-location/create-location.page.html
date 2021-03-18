@@ -25,9 +25,15 @@
             <ion-textarea ngModel name="description" auto-grow required></ion-textarea>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Image</ion-label>
-            <ion-input ngModel name="file" type="file" required></ion-input>
+            <ion-label position="floating">Catégorie</ion-label>
+            <ion-select ngModel required name="category" interface="action-sheet">
+              <ion-select-option [value]="category" *ngFor="let category of categories">{{category.name}}</ion-select-option>
+            </ion-select>
           </ion-item>
+          <!-- <ion-item>
+            <ion-label position="floating">Image</ion-label>
+            <ion-input ngModel name="file" type="file"></ion-input>
+          </ion-item> -->
         </ion-col>
         <ion-col size="6">
           <ion-item>

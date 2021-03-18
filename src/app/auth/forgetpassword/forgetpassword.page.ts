@@ -35,8 +35,7 @@ export class ForgetpasswordPage implements OnInit {
 
   async presentLoading() {
     const loading = await this.loadingController.create({
-      message: 'Please wait ...',
-      spinner: 'bubbles'
+      spinner: 'crescent'
     });
     await loading.present();
   }

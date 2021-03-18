@@ -16,6 +16,11 @@ export class CategoriesPage implements OnInit {
   constructor(private apiService: ApiService, private storage: Storage, private router: Router, private loadingController: LoadingController) { }
 
   ngOnInit() {
+    
+    this.refreshCategory(null)
+  }
+
+  refreshCategory(event){
     this.presentLoading();
     this.apiService.get('category/list').subscribe((res) => {
       
@@ -25,17 +30,24 @@ export class CategoriesPage implements OnInit {
     }, (error) => {
       console.log(error);
       this.dismissLoading();
-    })
+    });
+
+    if(event){
+      event.target.complete();
+    }
   }
 
   navigateToAddCategory(){
     this.router.navigateByUrl('menu/categories/create');
   }
 
+  navigationToCategory(category){
+    this.router.navigateByUrl('menu/categories/category/' + category.id, {queryParams: {id:category.id}});
+  }
+
   async presentLoading() {
     const loading = await this.loadingController.create({
-      message: 'Please wait ...',
-      spinner: 'bubbles'
+      spinner: 'crescent'
     });
     await loading.present();
   }
