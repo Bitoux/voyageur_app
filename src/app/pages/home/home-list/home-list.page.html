@@ -16,12 +16,8 @@
   </ion-toolbar>
 </ion-header>
 
-<div id="map"></div>
-
-<ion-content padding>
-  
-    
-    <!-- <ion-refresher slot="fixed" (ionRefresh)="requestNearestLocations($event)">
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="requestNearestLocations($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
@@ -29,22 +25,6 @@
     <ion-item (click)="navigateToLocation(location)" *ngFor="let location of locations">
       {{location.name}} <span slot="end">{{location.distance | number:'1.0-0'}} km</span>
     </ion-item>
-  </ion-list> -->
+  </ion-list>
+  
 </ion-content>
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-buttons class="start-buttons" slot="start">
-      <ion-button fill="solid" color="secondary" (click)="letsRide()">
-        <ion-icon name="play-outline"></ion-icon>
-        Ridance
-      </ion-button>
-    </ion-buttons>
-    <ion-buttons class="end-buttons" slot="end">
-      <ion-button fill="solid" color="secondary" (click)="navigateList()">
-        <ion-icon name="list-outline"></ion-icon>
-        Liste
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>

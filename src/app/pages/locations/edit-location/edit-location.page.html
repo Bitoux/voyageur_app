@@ -6,49 +6,52 @@
       <ion-back-button defaultHref="locations"></ion-back-button>
     </ion-buttons>
 
-    <ion-title>Ajouter une location</ion-title>
+    <ion-title>Modifier la location</ion-title>
 
   </ion-toolbar>
 </ion-header>
 
 <ion-content color="primary" padding>
-  <form #form="ngForm" (ngSubmit)="createLocation(form)">
+  <form *ngIf="location" #form="ngForm" (ngSubmit)="editLocation(form)">
     <ion-grid>
       <ion-row>
         <ion-col size="12">
+
           <ion-item>
             <ion-label position="floating">Nom</ion-label>
-            <ion-input ngModel name="name" type="text" required></ion-input>
+            <ion-input [(ngModel)]="location.name" name="name" type="text" required></ion-input>
           </ion-item>
+
           <ion-item>
             <ion-label position="floating">Description</ion-label>
-            <ion-textarea ngModel name="description" auto-grow required></ion-textarea>
+            <ion-textarea [(ngModel)]="location.description" name="description" auto-grow required></ion-textarea>
           </ion-item>
+
           <ion-item>
             <ion-label position="floating">Catégorie</ion-label>
-            <ion-select ngModel required name="category" interface="action-sheet">
+            <ion-select [(ngModel)]="location.category" name="category" [compareWith]="compareCategory" interface="action-sheet">
               <ion-select-option [value]="category" *ngFor="let category of categories">{{category.name}}</ion-select-option>
             </ion-select>
           </ion-item>
-          <!-- <ion-item>
-            <ion-label position="floating">Image</ion-label>
-            <ion-input ngModel name="file" type="file"></ion-input>
-          </ion-item> -->
+
         </ion-col>
+        
         <ion-col size="6">
           <ion-item>
             <ion-label position="floating">Longitude</ion-label>
-            <ion-input ngModel name="longitude" type="text" required></ion-input>
+            <ion-input [(ngModel)]="location.longitude" name="longitude" type="text" required></ion-input>
           </ion-item>
         </ion-col>
         <ion-col size="6">
           <ion-item>
             <ion-label position="floating">Latitude</ion-label>
-            <ion-input ngModel name="latitude" type="text" required></ion-input>
+            <ion-input [(ngModel)]="location.latitude" name="latitude" type="text" required></ion-input>
           </ion-item>
         </ion-col>
+
       </ion-row>
     </ion-grid>
-    <ion-button color="secondary" size="large" type="submit" [disabled]="form.invalid" expand="block">Ajouter</ion-button>
+    <ion-button color="secondary" size="large" type="submit" [disabled]="form.invalid" expand="block">Modifier</ion-button>
   </form>
+
 </ion-content>

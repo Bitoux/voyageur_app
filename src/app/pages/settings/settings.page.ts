@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { ApiService } from '../../api.service';
-import { LoadingController } from '@ionic/angular';
+import { LoaderService } from '../../loader.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,33 +13,21 @@ export class SettingsPage implements OnInit {
 
   user;
 
-  constructor(private apiService: ApiService, private storage: Storage, private loadingController: LoadingController, private router: Router) { }
+  constructor(private apiService: ApiService, private storage: Storage, private loaderService: LoaderService, private router: Router) { }
 
   ngOnInit() {
-    this.presentLoading();
+    this.loaderService.presentLoading();
     this.storage.get('user').then(user => {
 
       this.user = JSON.parse(user);
 
       this.apiService.get(`user/${encodeURIComponent(this.user.email)}`).subscribe((res) => {
         this.user = res;
-        this.dismissLoading();
+        this.loaderService.dismiss();
       }, (error) => {
         console.log(error);
-        this.dismissLoading();
+        this.loaderService.dismiss();
       });
     })
   }
-
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      spinner: 'crescent'
-    });
-    await loading.present();
-  }
-
-  dismissLoading(){
-    this.loadingController.dismiss();
-  }
-
 }

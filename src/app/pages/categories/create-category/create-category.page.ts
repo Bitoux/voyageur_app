@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../api.service';
 import { Storage } from "@ionic/storage";
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoaderService } from '../../../loader.service';
 
 @Component({
   selector: 'app-create-category',
@@ -13,7 +13,7 @@ export class CreateCategoryPage implements OnInit {
 
   colors;
 
-  constructor(private loadingController: LoadingController, private apiService: ApiService, private storage: Storage, private router: Router) { }
+  constructor(private loaderService: LoaderService, private apiService: ApiService, private storage: Storage, private router: Router) { }
 
   ngOnInit() {
     this.apiService.get('color/list').subscribe((res) => {
@@ -29,23 +29,12 @@ export class CreateCategoryPage implements OnInit {
       color: form.form.value.color.id
     }
     this.apiService.put('category/create', category).subscribe((res) => {
-      this.dismissLoading();
+      this.loaderService.dismiss();
       this.router.navigateByUrl('manu/categories');
     }, (error) => {
       console.log(error);
-      this.dismissLoading();
+      this.loaderService.dismiss();
     })
-  }
-
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      spinner: 'crescent'
-    });
-    await loading.present();
-  }
-
-  dismissLoading(){
-    this.loadingController.dismiss();
   }
 
 }

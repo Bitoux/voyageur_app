@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../api.service';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoaderService } from '../../loader.service';
 
 
 @Component({
@@ -13,17 +13,17 @@ export class LocationsPage implements OnInit {
 
   locations;
 
-  constructor(private apiService: ApiService, private router: Router, private loadingController: LoadingController) { }
+  constructor(private apiService: ApiService, private router: Router, private loaderService: LoaderService) { }
 
   ngOnInit() {
-    this.presentLoading();
+    this.loaderService.presentLoading();
     this.apiService.get('location/list').subscribe((res) => {
     
       this.locations = res;
-      this.dismissLoading();
+      this.loaderService.dismiss();
     }, (error) => {
       console.log(error);
-      this.dismissLoading();
+      this.loaderService.dismiss();
     });
   }
 
@@ -32,7 +32,7 @@ export class LocationsPage implements OnInit {
       this.locations.splice(index, 1);
     }, (error) => {
       console.log(error);
-      this.dismissLoading();
+      this.loaderService.dismiss();
     })
   }
 
@@ -43,16 +43,4 @@ export class LocationsPage implements OnInit {
   navigateToAddLocation(){
     this.router.navigateByUrl('/menu/locations/create');
   }
-
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      spinner: 'crescent'
-    });
-    await loading.present();
-  }
-
-  dismissLoading(){
-    this.loadingController.dismiss();
-  }
-
 }

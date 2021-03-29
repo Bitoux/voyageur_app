@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { ApiService } from '../../../api.service';
-import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../../auth/auth.service';
+import { LoaderService } from '../../../loader.service';
 
 @Component({
   selector: 'app-edit-profil',
@@ -16,22 +16,22 @@ export class EditProfilPage implements OnInit {
   wrongPassword;
   user;
 
-  constructor(private apiService: ApiService, private storage: Storage, private loadingController: LoadingController, private router: Router, private alertController: AlertController, private autService: AuthService) {
+  constructor(private apiService: ApiService, private storage: Storage, private loaderService: LoaderService, private router: Router, private alertController: AlertController, private autService: AuthService) {
     this.wrongPassword = false;
   }
 
   ngOnInit() {
-    this.presentLoading();
+    this.loaderService.presentLoading();
 
     this.storage.get('user').then(user => {
       this.user = JSON.parse(user);
       this.apiService.get(`user/${encodeURIComponent(this.user.email)}`).subscribe((res) => {
         Object.assign(this.user, res);
         this.user.new_email = this.user.email;
-        this.dismissLoading();
+        this.loaderService.dismiss();
       }, (error) => {
         console.log(error);
-        this.dismissLoading();
+        this.loaderService.dismiss();
       })
     });
   }
@@ -53,22 +53,11 @@ export class EditProfilPage implements OnInit {
         
       }, (error) => {
         console.log(error);
-        this.dismissLoading();
+        this.loaderService.dismiss();
       })
     }else{
       this.wrongPassword = true;
     }
-  }
-
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      spinner: 'crescent'
-    });
-    await loading.present();
-  }
-
-  dismissLoading(){
-    this.loadingController.dismiss();
   }
 
   async emailChangeAlert(){

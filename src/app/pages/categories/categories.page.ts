@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../api.service';
 import { Storage } from "@ionic/storage";
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoaderService } from '../../loader.service';
 
 @Component({
   selector: 'app-categories',
@@ -13,7 +13,7 @@ export class CategoriesPage implements OnInit {
 
   categories;
 
-  constructor(private apiService: ApiService, private storage: Storage, private router: Router, private loadingController: LoadingController) { }
+  constructor(private apiService: ApiService, private storage: Storage, private router: Router, private loaderService: LoaderService) { }
 
   ngOnInit() {
     
@@ -21,15 +21,15 @@ export class CategoriesPage implements OnInit {
   }
 
   refreshCategory(event){
-    this.presentLoading();
+    this.loaderService.presentLoading();
     this.apiService.get('category/list').subscribe((res) => {
       
       this.categories = res;
-      this.dismissLoading();
+      this.loaderService.dismiss();
 
     }, (error) => {
       console.log(error);
-      this.dismissLoading();
+      this.loaderService.dismiss();
     });
 
     if(event){
@@ -44,16 +44,4 @@ export class CategoriesPage implements OnInit {
   navigationToCategory(category){
     this.router.navigateByUrl('menu/categories/category/' + category.id, {queryParams: {id:category.id}});
   }
-
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      spinner: 'crescent'
-    });
-    await loading.present();
-  }
-
-  dismissLoading(){
-    this.loadingController.dismiss();
-  }
-
 }

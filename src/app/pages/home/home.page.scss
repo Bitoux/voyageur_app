@@ -14,3 +14,32 @@
     height: 30px;
     background-color: black;
 }
+
+.start-buttons,
+.end-buttons{
+    margin: 0;
+    height: 56px;
+    width: 50%;
+}
+
+.start-buttons{
+    ion-button{
+        margin-left: 0;
+    }
+}
+
+.end-buttons{
+    ion-button{
+        margin-right: 0;
+    }
+}
+
+ion-footer{
+    ion-button{
+        height: 100%;
+        width: 100%;
+        --border-radius: 0;
+        --padding-end: 20px;
+        --padding-start: 20px;
+    }
+}

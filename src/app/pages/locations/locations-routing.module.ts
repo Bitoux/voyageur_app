@@ -15,6 +15,10 @@ const routes: Routes = [
   {
     path: 'create',
     loadChildren: () => import('./create-location/create-location.module').then( m => m.CreateLocationPageModule)
+  },
+  {
+    path: 'edit/:id',
+    loadChildren: () => import('./edit-location/edit-location.module').then( m => m.EditLocationPageModule)
   }
 ];
 

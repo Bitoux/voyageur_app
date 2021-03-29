@@ -3,8 +3,8 @@ import { Router } from  "@angular/router";
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../auth.service';
 import { ApiService } from '../../api.service';
-import { LoadingController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { LoaderService } from '../../loader.service';
 
 @Component({
   selector: 'app-login',
@@ -13,15 +13,15 @@ import { Storage } from '@ionic/storage';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private  authService:  AuthService, private  router:  Router, public alertController: AlertController, private loadingController: LoadingController, private storage: Storage, private apiService: ApiService) { }
+  constructor(private  authService:  AuthService, private  router:  Router, public alertController: AlertController, private loaderService: LoaderService, private storage: Storage, private apiService: ApiService) { }
 
   ngOnInit() {
   }
 
   login(form){
-    this.presentLoading();
+    this.loaderService.presentLoading();
     this.authService.login(form.value).subscribe((res)=>{
-      this.dismissLoading();
+      this.loaderService.dismiss();
       if(res.error && res.error.message === 'Invalid credentials.'){ // == 'Invalid credentials.'
         this.errorAlert();
       }else{
@@ -29,7 +29,7 @@ export class LoginPage implements OnInit {
         
       }
     }, (error) => {
-      this.dismissLoading();
+      this.loaderService.dismiss();
       this.errorAlert();
     });
   }
@@ -48,7 +48,7 @@ export class LoginPage implements OnInit {
         });
     }, (error) => {
       console.log(error);
-      this.dismissLoading();
+      this.loaderService.dismiss();
     })
     
   }
@@ -62,16 +62,4 @@ export class LoginPage implements OnInit {
     });
     await alert.present();
   }
-
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      spinner: 'crescent'
-    });
-    await loading.present();
-  }
-
-  dismissLoading(){
-    this.loadingController.dismiss();
-  }
-
 }

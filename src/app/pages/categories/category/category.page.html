@@ -19,12 +19,12 @@
 
 <ion-content *ngIf="category">
   <ion-text>
-    <h1>{{category.name}} <span [ngStyle]="{'background-color': category.color.hex}"></span></h1>
+    <h1>{{category.name}} <span class="category-color" [ngStyle]="{'background-color': category.color.hex}"></span></h1>
   </ion-text>
-  <ion-text>
+  <ion-text *ngIf="category.locations.length">
     <h3>Les locations:</h3>
   </ion-text>
-  <ion-list>
+  <ion-list *ngIf="category.locations.length">
     <ion-item (click)="navigationToLocation(location)" *ngFor="let location of category.locations">
       {{location.name}}
     </ion-item>

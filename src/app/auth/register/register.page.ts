@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from  "@angular/router";
 import { AuthService } from '../auth.service';
-import { LoadingController } from '@ionic/angular';
+import { LoaderService } from '../../loader.service';
 
 @Component({
   selector: 'app-register',
@@ -10,29 +10,17 @@ import { LoadingController } from '@ionic/angular';
 })
 export class RegisterPage implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router, private loadingController: LoadingController) { }
+  constructor(private authService: AuthService, private router: Router, private loaderService: LoaderService) { }
 
   ngOnInit() {
     console.log('On register');
   }
 
   register(form) {
-    this.presentLoading();
+    this.loaderService.presentLoading();
     this.authService.register(form.value).subscribe((res) => {
       this.router.navigateByUrl('');
-      this.dismissLoading();
+      this.loaderService.dismiss();
     });
   }
-
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      spinner: 'crescent'
-    });
-    await loading.present();
-  }
-
-  dismissLoading(){
-    this.loadingController.dismiss();
-  }
-
 }

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../api.service';
-import { Storage } from "@ionic/storage";
-import { LoadingController } from '@ionic/angular';
+import { LoaderService } from '../../../loader.service';
 
 @Component({
   selector: 'app-location',
@@ -14,34 +13,26 @@ export class LocationPage implements OnInit {
   location;
   id;
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router, private loadingController: LoadingController) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router, private loaderService: LoaderService) { }
 
   ngOnInit() {
-    this.presentLoading();
+    this.loaderService.presentLoading();
     this.route.paramMap.subscribe(queryParams => {
       this.id = queryParams.get('id');
 
 
-      this.apiService.get(`location/${this.id}`).subscribe((res) => {
+      this.apiService.get(`location/single/${this.id}`).subscribe((res) => {
       
         this.location = res;
-        this.dismissLoading();
+        this.loaderService.dismiss();
       }, (error) => {
         console.log(error);
-        this.dismissLoading();
+        this.loaderService.dismiss();
       });
     });
   }
 
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      spinner: 'crescent'
-    });
-    await loading.present();
+  editLocation(){
+    this.router.navigateByUrl('/menu/locations/edit/' + this.id, {queryParams: {id: this.id}});
   }
-
-  dismissLoading(){
-    this.loadingController.dismiss();
-  }
-
 }

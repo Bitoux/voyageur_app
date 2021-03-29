@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../api.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoaderService } from '../../../loader.service';
 
 @Component({
   selector: 'app-edit-category',
@@ -14,10 +14,10 @@ export class EditCategoryPage implements OnInit {
   category;
   colors;
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router, private loadingController: LoadingController) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router, private loaderService: LoaderService) { }
 
   ngOnInit() {
-    this.presentLoading();
+    this.loaderService.presentLoading();
     this.route.paramMap.subscribe(queryParam => {
       this.id = queryParam.get('id');
 
@@ -26,10 +26,10 @@ export class EditCategoryPage implements OnInit {
         this.apiService.get(`category/${this.id}`).subscribe((res) => {
           this.category = res;
           this.colors.push(this.category.color);
-          this.dismissLoading();
+          this.loaderService.dismiss();
         }, (error) => {
           console.log(error);
-          this.dismissLoading();
+          this.loaderService.dismiss();
         });
       }, (error) => {
         console.log(error);
@@ -38,7 +38,6 @@ export class EditCategoryPage implements OnInit {
   }
 
   compareColor(color1, color2){
-    console.log(color1, color2);
     return color1 && color2 ? color1.id == color2.id : color1 == color2;
   }
 
@@ -49,23 +48,16 @@ export class EditCategoryPage implements OnInit {
       color: form.form.value.color.id
     };
     this.apiService.put('category/edit', category).subscribe((res) => {
-      this.dismissLoading();
+      this.loaderService.dismiss();
       this.router.navigateByUrl('menu/categories/category/' + this.category.id, {queryParams: {id: this.category.id}});
     }, (error) => {
       console.log(error);
-      this.dismissLoading();
+      this.loaderService.dismiss();
     })
   }
 
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      spinner: 'crescent'
-    });
-    await loading.present();
-  }
+  
 
-  dismissLoading(){
-    this.loadingController.dismiss();
-  }
+  
 
 }

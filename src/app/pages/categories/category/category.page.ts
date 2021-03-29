@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../api.service';
-import { LoadingController } from '@ionic/angular';
+import { LoaderService } from '../../../loader.service';
 
 @Component({
   selector: 'app-category',
@@ -13,19 +13,19 @@ export class CategoryPage implements OnInit {
   id;
   category;
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router, private loadingController: LoadingController) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router, private loaderService: LoaderService) { }
 
   ngOnInit() {
-    this.presentLoading();
+    this.loaderService.presentLoading();
     this.route.paramMap.subscribe(queryParam => {
       this.id = queryParam.get('id');
 
       this.apiService.get(`category/${this.id}`).subscribe((res) => {
         this.category = res;
-        this.dismissLoading();
+        this.loaderService.dismiss();
       }, (error) => {
         console.log(error);
-        this.dismissLoading();
+        this.loaderService.dismiss();
       });
     });
   }
@@ -37,16 +37,4 @@ export class CategoryPage implements OnInit {
   navigationToLocation(location){
     this.router.navigateByUrl('/menu/locations/location/' + location.id, {queryParams: { id: location.id}});
   }
-
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      spinner: 'crescent'
-    });
-    await loading.present();
-  }
-
-  dismissLoading(){
-    this.loadingController.dismiss();
-  }
-
 }

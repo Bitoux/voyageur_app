@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { LoadingController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { LoaderService } from '../../loader.service';
 
 @Component({
   selector: 'app-forgetpassword',
@@ -10,16 +10,16 @@ import { AlertController } from '@ionic/angular';
 })
 export class ForgetpasswordPage implements OnInit {
 
-  constructor(private loadingController: LoadingController, private  authService:  AuthService, public alertController: AlertController) { }
+  constructor(private loaderService: LoaderService, private  authService:  AuthService, public alertController: AlertController) { }
 
   ngOnInit() {
   }
 
   sendPassword(form) {
     console.log(form.value.email);
-    this.presentLoading();
+    this.loaderService.presentLoading();
     this.authService.forgetPassword(form.value.email).subscribe((res) => {
-      this.dismissLoading();
+      this.loaderService.dismiss();
       console.log(res);
       if(res.error && res.error.message === 'No Email'){
         this.errorAlert();
@@ -27,22 +27,15 @@ export class ForgetpasswordPage implements OnInit {
         
       }
     }, (error) => {
-      this.dismissLoading();
+      this.loaderService.dismiss();
       console.log(error);
       this.errorAlert();
     })
   }
 
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      spinner: 'crescent'
-    });
-    await loading.present();
-  }
+  
 
-  dismissLoading(){
-    this.loadingController.dismiss();
-  }
+  
 
   async errorAlert(){
     let alert = await this.alertController.create({
